@@ -20,65 +20,68 @@
  *   Set all elements in set to equal height:
  *   $( '.some-boxes, #another-box' ).equalHeight();
  *
- * @author Thomas Heuer <thomas.heuer@intermatix.de>
- * @copyright 2012 Intermatix GmbH
- * @requires jQuery 1.7
+ * @author    Thomas Heuer <thomas.heuer@votum.de>
+ * @copyright Copyright (c) 2014 VOTUM media GmbH
+ * @link      https://github.com/votum/jquery.equalheight
+ * @requires  jQuery 1.7
  */
 
-(function( $ ) {
-	/**
-	 * equal height for all elements in the current set
-	 */
-	$.fn.equalHeight = function() {
-		var tallest = 0;
-		this.each( function() {
-			$this = $( this );
-			$height = $this.outerHeight();
-			$orignalHeight = $this.attr( 'data-original-height' );
-			if( !$orignalHeight ) {
-				$this.attr( 'data-original-height', $height );
-			}
-			var thisHeight = $orignalHeight || $height;
-			if( thisHeight > tallest ) {
-				tallest = thisHeight;
-			}
-		} );
-		this.height(tallest);
-		return this;
-	};
+( function( $ ) {
+  /**
+   * equal height for all elements in the current set
+   */
+  $.fn.equalHeight = function() {
+    var tallest = 0,
+            self = this;
 
-	/* global plugin function */
-	$.equalHeight = function( options ) {
+    /* reset height to auto, before computing the uccrent new height */
+    this.css( 'height', 'auto' );
 
-		options = $.extend( {
-			'attribute': 'data-equal-height'
-		}, options );
+    this.each( function() {
+      $this = $( this );
+      $height = $this.height();
+      if( $height > tallest ) {
+        tallest = $height;
+      }
+    } );
+    this.height( tallest );
 
-		/* get boxes with attribute 'options.attribute', grouped by value */
-		var equalHeightBoxGroups = [];
-		$( '[' + options.attribute + ']' ).each( function() {
-			var thisEqualHeightAttributeValue = $( this ).attr( options.attribute ) || 0;
-			if( !equalHeightBoxGroups[thisEqualHeightAttributeValue] ) {
-				equalHeightBoxGroups[thisEqualHeightAttributeValue] = $( [] );
-			}
-			equalHeightBoxGroups[thisEqualHeightAttributeValue] = equalHeightBoxGroups[thisEqualHeightAttributeValue].add( this );
-		} );
+    /* re-run on resize */
+    $( window ).on( 'resize.equalheight', function( event ) {
+      /* us a little timeput, since some browsers fire the resize event for each pixel */
+      clearTimeout( this.waitForResizeFinish );
+      this.waitForResizeFinish = setTimeout( function() {
+        self.equalHeight();
+      }, 100 );
+    } );
 
-		/* aplly to each group of boxes */
-		$( equalHeightBoxGroups ).each( function( index, elementArray ) {
-			if( elementArray ) {
-				elementArray.equalHeight();
-			}
-		} );
+    return this;
+  };
 
-		/* re-run on resize */
-		$( window ).on( 'resize.equalheight', function( event ) {
-			clearTimeout( this.waitForResizeFinish );
-			this.waitForResizeFinish = setTimeout( function() {
-				$.equalHeight( options );
-			}, 100 );
-		} );
+  /* global plugin function */
+  $.equalHeight = function( options ) {
 
-		return this;
-	};
-})( jQuery );
+    options = $.extend( {
+      'attribute': 'data-equal-height'
+    }, options );
+
+    /* get boxes with attribute 'options.attribute', grouped by value */
+    var equalHeightBoxGroups = [ ];
+    $( '[' + options.attribute + ']' ).each( function() {
+      var thisEqualHeightAttributeValue = $( this ).attr( options.attribute ) || 0;
+      if( !equalHeightBoxGroups[thisEqualHeightAttributeValue] ) {
+        equalHeightBoxGroups[thisEqualHeightAttributeValue] = $( [ ] );
+      }
+      equalHeightBoxGroups[thisEqualHeightAttributeValue] = equalHeightBoxGroups[thisEqualHeightAttributeValue].add( this );
+    } );
+
+    /* aplly to each group of boxes */
+    $( equalHeightBoxGroups ).each( function( index, elementArray ) {
+      if( elementArray ) {
+        elementArray.equalHeight();
+      }
+    } );
+
+    return this;
+  };
+} )( jQuery );
