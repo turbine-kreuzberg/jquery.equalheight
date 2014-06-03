@@ -13,27 +13,27 @@ The plugin is controlled through HTML attributes on the target elements. Element
 Set all elements with attribute `data-equal-height` (default behavior) to equal height:
 
 ```html
-    <div data-equal-height="1">some content</div>
-    <div data-equal-height="1">some content</div>
-    <div data-equal-height="2">some content</div>
-    <div data-equal-height="2">some content</div>
+<div data-equal-height="1">some content</div>
+<div data-equal-height="1">some content</div>
+<div data-equal-height="2">some content</div>
+<div data-equal-height="2">some content</div>
 ```
 
 ```javascript
-    jQuery.equalHeight();
+jQuery.equalHeight();
 ```
 
 Set all elements with attribute `title` to equal height:
 
 ```html
-    <div lang="en">some content</div>
-    <div lang="fr">some content</div>
-    <div lang="de">some content</div>
-    <div lang="it">some content</div>
+<div lang="en">some content</div>
+<div lang="fr">some content</div>
+<div lang="de">some content</div>
+<div lang="it">some content</div>
 ```
 
 ```javascript
-    jQuery.equalHeight( { 'attribute' : 'title' } );
+jQuery.equalHeight( { 'attribute' : 'title' } );
 ```
 
 ### Direct usage:
@@ -41,7 +41,7 @@ Set all elements with attribute `title` to equal height:
 Set all elements in the set to equal height:
 
 ```javascript
-    jQuery( '.some-boxes, #another-box' ).equalHeight();
+jQuery( '.some-boxes, #another-box' ).equalHeight();
 ```
 
 ## Further notes
