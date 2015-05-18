@@ -4,7 +4,8 @@ This jQuery plugin sets equal heights on multiple boxes.
 
 ## Usage
 
-jQuery needs to be loaded and the DOM should be ready.
+jQuery needs to be loaded and the DOM should be ready and wrap the elements inside a DIV with data-equalheight-wrapper. Include
+the jquery.equalheight.css file in your HEAD.
 
 ### Automated usage
 
@@ -13,27 +14,31 @@ The plugin is controlled through HTML attributes on the target elements. Element
 Set all elements with attribute `data-equal-height` (default behavior) to equal height:
 
 ```html
-<div data-equal-height="1">some content</div>
-<div data-equal-height="1">some content</div>
-<div data-equal-height="2">some content</div>
-<div data-equal-height="2">some content</div>
+<div data-equalheight-wrapper>
+    <div data-equal-height="1">some content</div>
+    <div data-equal-height="1">some content</div>
+    <div data-equal-height="2">some content</div>
+    <div data-equal-height="2">some content</div>
+</div>
 ```
 
 ```javascript
 jQuery.equalHeight();
 ```
 
-Set all elements with attribute `title` to equal height:
+Set all elements with attribute `lang` to equal height:
 
 ```html
-<div lang="en">some content</div>
-<div lang="fr">some content</div>
-<div lang="de">some content</div>
-<div lang="it">some content</div>
+<div data-equalheight-wrapper>
+    <div lang="en">some content</div>
+    <div lang="fr">some content</div>
+    <div lang="de">some content</div>
+    <div lang="it">some content</div>
+</div>
 ```
 
 ```javascript
-jQuery.equalHeight( { 'attribute' : 'title' } );
+jQuery.equalHeight( { 'attribute' : 'lang' } );
 ```
 
 ### Direct usage:
@@ -50,6 +55,7 @@ Developed by [Thomas Heuer](mailto:thomas.heuer@votum.de) at [VOTUM](http://www.
 
 ### Version & Update notes
 
+- v1.1; 18 May, 2015: plugin beautification - boxes are shown after heights are set to the elements
 - v1.0; 04 Apr, 2014
 - v0.2; 31 Oct, 2012: bugfix for window.resize event
 - v0.1; September 2012
